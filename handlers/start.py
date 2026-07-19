@@ -3,7 +3,6 @@ from aiogram.filters import Command
 from aiogram.types import Message, FSInputFile, CallbackQuery
 from pathlib import Path
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from ytdl import download_audio_youtube, download_video_youtube
@@ -44,12 +43,15 @@ async def get_audio_url(message: Message, state: FSMContext):
 async def download_audio(message: Message, state: FSMContext):
     url = message.text
 
-    await message.answer("Начинаю качать аудио...")
-
-    path = await download_audio_youtube(url)
-
-    audio = FSInputFile(path)
-    await message.answer_audio(audio)
+    try:
+        await message.answer("Начинаю качать аудио...")
+        path = await download_audio_youtube(url)
+        audio = FSInputFile(path)
+        await message.answer_audio(audio)
+    except Exception as e:
+        await message.answer(f"❌ Ошибка: {str(e)}")
+    finally:
+        await state.clear()
 
 
 @router.message(F.text == "Скачать видео")
@@ -62,9 +64,12 @@ async def get_video_url(message: Message, state: FSMContext):
 async def download_video(message: Message, state: FSMContext):
     url = message.text
 
-    await message.answer("Начинаю качать видео...")
-
-    path = await download_video_youtube(url)
-
-    video = FSInputFile(path)
-    await message.answer_video(video)
+    try:
+        await message.answer("Начинаю качать видео...")
+        path = await download_video_youtube(url)
+        video = FSInputFile(path)
+        await message.answer_video(video)
+    except Exception as e:
+        await message.answer(f"❌ Ошибка: {str(e)}")
+    finally:
+        await state.clear()
