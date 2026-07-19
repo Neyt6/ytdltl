@@ -1,0 +1,6 @@
+.env
+/.venv
+/video
+/audio
+/image
+/__pycache__

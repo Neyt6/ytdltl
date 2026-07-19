@@ -1,0 +1,1 @@
+ watchmedo auto-restart --directory=. --pattern="*.py" --recursive -- c:\gitprogects\ytdltl\.venv\Scripts\python.exe c:/gitprogects/ytdltl/bot.py
