@@ -6,6 +6,7 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from ytdl import download_audio_youtube, download_video_youtube
+import os
 
 router = Router()
 
@@ -40,7 +41,7 @@ async def get_audio_url(message: Message, state: FSMContext):
 
 
 @router.message(Form.audio_url)
-async def download_audio(message: Message, state: FSMContext):
+async def download_audio(message: Message, state: FSMContext, deleteFile=True):
     url = message.text
 
     try:
@@ -52,6 +53,8 @@ async def download_audio(message: Message, state: FSMContext):
         await message.answer(f"❌ Ошибка: {str(e)}")
     finally:
         await state.clear()
+        if (deleteFile):
+            os.remove(path)
 
 
 @router.message(F.text == "Скачать видео")
@@ -61,7 +64,7 @@ async def get_video_url(message: Message, state: FSMContext):
 
 
 @router.message(Form.video_url)
-async def download_video(message: Message, state: FSMContext):
+async def download_video(message: Message, state: FSMContext, deleteFile=True):
     url = message.text
 
     try:
@@ -73,3 +76,5 @@ async def download_video(message: Message, state: FSMContext):
         await message.answer(f"❌ Ошибка: {str(e)}")
     finally:
         await state.clear()
+        if (deleteFile):
+            os.remove(path)
