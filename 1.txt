@@ -1,1 +1,10 @@
- watchmedo auto-restart --directory=. --pattern="*.py" --recursive -- c:\gitprogects\ytdltl\.venv\Scripts\python.exe c:/gitprogects/ytdltl/bot.py
+watchmedo auto-restart --directory=. --pattern="*.py" --recursive -- c:\gitprogects\ytdltl\.venv\Scripts\python.exe c:/gitprogects/ytdltl/bot.py
+
+
+
+sudo systemctl daemon-reload
+sudo systemctl restart mybot
+sudo systemctl status mybot
+
+
+journalctl -u mybot -f
