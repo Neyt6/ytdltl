@@ -17,6 +17,32 @@ COMMON_OPTS = {
 }
 
 
+def _get_existing_download_path(url, download_dir, ydl_opts):
+    probe_opts = {
+        **ydl_opts,
+        "skip_download": True,
+        "simulate": True,
+        "quiet": True,
+        "no_warnings": True,
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(probe_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            if not info:
+                return None
+            generated_path = ydl.prepare_filename(info)
+    except Exception:
+        return None
+
+    stem = Path(generated_path).stem
+    for candidate in sorted(Path(download_dir).glob(f"{stem}.*")):
+        if candidate.is_file() and candidate.suffix.lower() not in {".part", ".f248", ".f251", ".tmp"}:
+            return str(candidate)
+
+    return None
+
+
 def _download_audio_sync(url):
     """Синхронная функция загрузки аудио"""
     download_dir = "./audio"
@@ -33,6 +59,10 @@ def _download_audio_sync(url):
         "quiet": False,
         "no_warnings": False,
     }
+
+    existing_path = _get_existing_download_path(url, download_dir, ydl_opts)
+    if existing_path:
+        return existing_path
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
@@ -65,6 +95,10 @@ def _download_video_sync(url):
         "quiet": False,
         "no_warnings": False,
     }
+
+    existing_path = _get_existing_download_path(url, download_dir, ydl_opts)
+    if existing_path:
+        return existing_path
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)

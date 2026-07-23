@@ -7,6 +7,7 @@ from pathlib import Path
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
+from urllib.parse import quote
 from ytdl import download_audio_youtube, download_video_youtube
 from config import PUBLIC_DOWNLOAD_BASE_URL
 import os
@@ -35,7 +36,10 @@ def get_public_download_url(path: str) -> str | None:
         return None
 
     file_path = Path(path)
-    return f"{PUBLIC_DOWNLOAD_BASE_URL.rstrip('/')}/{file_path.parent.name}/{file_path.name}"
+    base_url = PUBLIC_DOWNLOAD_BASE_URL.rstrip("/")
+    safe_folder = quote(file_path.parent.name, safe="")
+    safe_filename = quote(file_path.name, safe="")
+    return f"{base_url}/{safe_folder}/{safe_filename}"
 
 
 async def send_media_or_download_link(message: Message, media_type: str, path: str) -> bool:
