@@ -7,6 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent
 AUDIO_DIR = BASE_DIR / "audio"
 VIDEO_DIR = BASE_DIR / "video"
 PORT = int(os.getenv("DOWNLOAD_SERVER_PORT", "8000"))
+PUBLIC_DOWNLOAD_BASE_URL=os.getenv("PUBLIC_DOWNLOAD_BASE_URL", "localhost")
 
 APP = web.Application()
 RUNNER = None
@@ -68,7 +69,7 @@ async def start_download_server():
     SITE = web.TCPSite(RUNNER, "0.0.0.0", PORT)
     await SITE.start()
 
-    print(f"Download server started at http://127.0.0.1:{PORT}/downloads/")
+    print(f"Download server started at {PUBLIC_DOWNLOAD_BASE_URL}:{PORT}/downloads/")
 
 
 async def stop_download_server():

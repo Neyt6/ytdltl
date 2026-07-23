@@ -8,3 +8,10 @@ sudo systemctl status mybot
 
 
 journalctl -u mybot -f
+
+
+
+ufw allow OpenSSH
+ufw allow 8000/tcp
+ufw allow 8000/udp
+ufw enable
