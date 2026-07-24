@@ -69,7 +69,7 @@ async def start_download_server():
     SITE = web.TCPSite(RUNNER, "0.0.0.0", PORT)
     await SITE.start()
 
-    print(f"Download server started at {PUBLIC_DOWNLOAD_BASE_URL}:{PORT}/downloads/")
+    print(f"Download server started at {PUBLIC_DOWNLOAD_BASE_URL}")
 
 
 async def stop_download_server():

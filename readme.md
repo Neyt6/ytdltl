@@ -33,8 +33,7 @@ ffmpeg -version
 Клонируйте репозиторий:
 
 ```bash
-git clone <URL_репозитория>
-cd ytdltl
+git clone https://github.com/Neyt6/ytdltl.git
 ```
 
 ## 4. Создание виртуального окружения
@@ -49,6 +48,10 @@ pip install -r requirements.txt
 ## 5. Настройка переменных окружения
 
 В корне проекта создайте файл `.env`:
+
+```bash
+nano .env
+```
 
 ```env
 BOT_TOKEN=123456:ABCDEF
