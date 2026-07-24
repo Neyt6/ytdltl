@@ -2,6 +2,7 @@ import re
 
 from aiogram import Router, F
 from aiogram.filters import Command
+from aiogram.filters.state import StateFilter
 from aiogram.types import Message, FSInputFile, CallbackQuery
 from pathlib import Path
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
@@ -115,12 +116,8 @@ async def get_video_url(message: Message, state: FSMContext):
     await state.set_state(Form.video_url)
 
 
-@router.message(F.text.regexp(URL_RE.pattern))
+@router.message(F.text.regexp(URL_RE.pattern), StateFilter(None))
 async def download_video_link(message: Message, state: FSMContext):
-    current_state = await state.get_state()
-    if current_state is not None:
-        return
-
     url = message.text.strip()
     path = None
     should_delete = True
