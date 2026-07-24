@@ -12,10 +12,10 @@ ssh root@IP_СЕРВЕРА
 apt update && apt upgrade -y
 ```
 
-## 2. Установка Python
+## 2. Установка Python, Node.js и FFmpeg
 
 ```bash
-apt install -y python3 python3-pip python3-venv git
+apt install -y python3 python3-pip python3-venv git nodejs npm ffmpeg
 ```
 
 Проверка:
@@ -23,6 +23,9 @@ apt install -y python3 python3-pip python3-venv git
 ```bash
 python3 --version
 pip3 --version
+node -v
+npm -v
+ffmpeg -version
 ```
 
 ## 3. Загрузка проекта
