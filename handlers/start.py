@@ -123,16 +123,16 @@ async def download_video_link(message: Message, state: FSMContext):
 
     url = message.text.strip()
     path = None
+    should_delete = True
 
     try:
         await message.answer("Получена ссылка, качаю видео...")
         path = await download_video_youtube(url)
-        video = FSInputFile(path)
-        await message.answer_video(video)
+        should_delete = await send_media_or_download_link(message, "video", path)
     except Exception as e:
         await message.answer(f"❌ Ошибка: {str(e)}")
     finally:
-        if path and os.path.exists(path):
+        if should_delete and path and os.path.exists(path):
             os.remove(path)
 
 
