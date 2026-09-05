@@ -14,6 +14,22 @@ COMMON_OPTS = {
     "js_runtimes": {
         "node": {},
     },
+    "extractor_args": {
+        "youtube": {
+            "player_client": ["android"],
+        },
+    },
+    "http_headers": {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/131.0.0.0 Safari/537.36"
+        ),
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": "https://www.youtube.com/",
+    },
+    "retries": 10,
+    "fragment_retries": 10,
 }
 
 
@@ -90,7 +106,8 @@ def _download_video_sync(url):
 
     ydl_opts = {
         **COMMON_OPTS,
-        "format": "best[ext=mp4]/best",
+        "format": "bestvideo*+bestaudio/best",
+        "merge_output_format": "mp4",
         "outtmpl": f"{download_dir}/%(title)s.%(ext)s",
         "quiet": False,
         "no_warnings": False,
